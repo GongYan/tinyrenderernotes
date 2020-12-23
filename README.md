@@ -1,0 +1,2 @@
+# tinyrenderernotes
+learning notes
