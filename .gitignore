@@ -32,3 +32,4 @@
 *.app
 main
 *.tga
+.DS_Store

@@ -1,7 +1,8 @@
 /**
- * bresenham 画线
- * g++ -std=c++11 bresenham.cpp ../tgaimage.cpp -o main
+ * bresenham 画线,去掉浮点计算
+ * g++ -std=c++11 bresenham2.cpp ../tgaimage.cpp -o main
  */
+
 #include <cmath>
 #include "../tgaimage.h"
 const int width = 500;
@@ -18,17 +19,16 @@ void line(int x0, int y0, int x1, int y1, TGAImage& image, const TGAColor& color
         std::swap(x1, y1);
         steep = true;
     }
-
     if(x0 > x1)
     {
         std::swap(x0, x1);
         std::swap(y0, y1);
     }
 
-    int dy = y1 - y0;
     int dx = x1 - x0;
-    float derror = std::abs(dy/float(dx));
-    float error = 0;
+    int dy = y1 - y0;
+    int derror2 = std::abs(dy) * 2;
+    int error = 0;
     int y = y0;
     for(int x = x0; x <= x1; x++)
     {
@@ -36,15 +36,15 @@ void line(int x0, int y0, int x1, int y1, TGAImage& image, const TGAColor& color
         {
             image.set(y, x, color);
         }
-        else 
+        else
         {
             image.set(x, y, color);
         }
-        error += derror;
-        if(error > 0.5)
+        error += derror2;
+        if(error > dx)
         {
             y += (y1 > y0 ? 1 : -1);
-            error -= 1;
+            error -= dx * 2;
         }
     }
 }
@@ -55,7 +55,7 @@ int main()
 
     line(400, 350, 20, 10, image, white); 
     line(10, 10, 10, 400, image, red);
-
+    
     image.flip_vertically();
     image.write_tga_file("output.tga");
     return 0;
