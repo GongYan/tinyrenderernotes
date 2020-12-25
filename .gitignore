@@ -33,3 +33,4 @@
 main
 *.tga
 .DS_Store
+.vscode
