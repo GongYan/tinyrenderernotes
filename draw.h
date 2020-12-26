@@ -8,7 +8,7 @@
 class Draw
 {
 public:
-    static void line(Vec2i& p1, Vec2i& p2, TGAImage&, const TGAColor&);
+    static void line(Vec2i, Vec2i, TGAImage&, const TGAColor&);
 };
 
 #endif

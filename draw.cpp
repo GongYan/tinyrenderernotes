@@ -1,6 +1,6 @@
 #include "draw.h"
 
-void Draw::line(Vec2i& p1, Vec2i& p2, TGAImage& image, const TGAColor& color)
+void Draw::line(Vec2i p1, Vec2i p2, TGAImage& image, const TGAColor& color)
 {
     bool steep = false;
     if(std::abs(p1.x - p2.x) < std::abs(p1.y - p2.y))
