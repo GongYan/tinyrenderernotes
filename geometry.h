@@ -15,6 +15,13 @@ struct Vec2
     };
     Vec2():u(0),v(0) {}
     Vec2(T _u, T _v):u(_u),v(_v) {}
+
+    inline T& operator [](int index){
+        if (index == 0) return x;
+        else if(index == 1) return y;
+        throw;
+    }
+
     inline Vec2<T> operator +(const Vec2<T> &V) const{
         return Vec2<T>(u + V.u, v + V.v);
     }
@@ -39,6 +46,14 @@ struct Vec3
     };
     Vec3():x(0), y(0), z(0) {}
     Vec3(T _x, T _y, T _z): x(_x), y(_y), z(_z) {}
+
+    inline T& operator [](int index) {
+        if(index == 0) return x;
+        else if(index == 1) return y;
+        else if(index == 2) return z;
+        throw;
+    }
+
     //叉乘：公式 （a.y*b.z-b.y*a.z , b.x*a.z-a.x*b.z  , a.x*b.y-b.x*a.y）
     inline Vec3<T> operator ^(const Vec3<T> &V) const {
         return Vec3<T>(y * V.z - V.y * z, V.x * z - x * V.z, x * V.y - V.x * y);
