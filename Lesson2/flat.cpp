@@ -25,7 +25,7 @@ int main()
             Vec2i((world_coords.x + 1.0 ) * width * 0.5,
                     (world_coords.y + 1.0) * height * 0.5);
         }
-        Draw::triangle(screen_coords, image, TGAColor( rand()* 255, rand()* 255,rand()* 255));
+        Draw::triangle(screen_coords, image, TGAColor( rand() % 255, rand() % 255,rand() % 255));
     }
 
     image.write_tga_file("output.tga");

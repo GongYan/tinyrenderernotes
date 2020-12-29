@@ -1,6 +1,6 @@
 /**
  * z缓冲
- * 
+ * g++ -std=c++11 zbuffer.cpp ../tgaimage.cpp ../draw.cpp ../model.cpp -o main
  */
 
 #include "../tgaimage.h"
