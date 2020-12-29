@@ -9,6 +9,9 @@ class Draw
 {
 public:
     static void line(Vec2i, Vec2i, TGAImage&, const TGAColor&);
+
+    static Vec3f barycentric(Vec2i*, Vec2i);
+    static void triangle(Vec2i*, TGAImage&, const TGAColor&);
 };
 
 #endif
