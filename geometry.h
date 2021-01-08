@@ -5,8 +5,8 @@
 #include <ostream>
 #include <cmath>
 
-const int width = 100;
-const int height = 100;
+const int width = 400;
+const int height = 400;
 const int depth = 255;
 
 template<class T>
