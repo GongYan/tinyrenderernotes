@@ -5,6 +5,10 @@
 #include <ostream>
 #include <cmath>
 
+const int width = 100;
+const int height = 100;
+const int depth = 255;
+
 template<class T>
 struct Vec2
 {
@@ -140,7 +144,7 @@ public:
                 mat.m[i][j] = 0.0f;
                 for(int k = 0; k < cols; k++)
                 {
-                    mat.m[i][j] += mat.m[i][k] * a.m[k][j];
+                    mat.m[i][j] += m[i][k] * a.m[k][j];
                 }
             }
         }
@@ -214,78 +218,74 @@ public:
         }
         return s;
     };
-};
 
-const int width = 100;
-const int height = 100;
-const int depth = 255;
+    //矩阵=>向量
+    static Vec3f m2v(Matrix m){
+        return Vec3f(m[0][0]/m[3][0], m[1][0]/m[3][0], m[2][0]/m[3][0]);
+    };
 
-//矩阵=>向量
-Vec3f m2v(Matrix m){
-    return Vec3f(m[0][0]/m[3][0], m[1][0]/m[3][0], m[2][0]/m[3][0]);
-};
+    //向量=>矩阵
+    static Matrix v2m(Vec3f v){
+        Matrix m(4, 1);
+        m[0][0] = v.x;
+        m[1][0] = v.y;
+        m[2][0] = v.z;
+        m[3][0] = 1.0f;
+        return m;
+    };
 
-//向量=>矩阵
-Matrix v2m(Vec3f v){
-    Matrix m(4, 1);
-    m[0][0] = v.x;
-    m[1][0] = v.y;
-    m[2][0] = v.z;
-    m[3][0] = 1.0f;
-    return m;
-};
+    //视口
+    static Matrix viewport(int x, int y, int w, int h){
+        Matrix m = Matrix::identity(4);
+        m[0][3] = x + w * 0.5;
+        m[1][3] = y + h * 0.5;
+        m[2][3] = depth * 0.5;
 
-//视口
-Matrix viewport(int x, int y, int w, int h){
-    Matrix m = Matrix::identity(4);
-    m[0][3] = x + w * 0.5;
-    m[1][3] = y + h * 0.5;
-    m[2][3] = depth * 0.5;
+        m[0][0] = w * 0.5;
+        m[1][1] = h * 0.5;
+        m[2][2] = depth * 0.5;
+        return m;
+    };
 
-    m[0][0] = w * 0.5;
-    m[1][1] = h * 0.5;
-    m[2][2] = depth * 0.5;
-    return m;
-};
+    //位移
+    static Matrix translation(Vec3f v){
+        Matrix m = Matrix::identity(4);
+        m[0][3] = v.x;
+        m[1][3] = v.y;
+        m[2][3] = v.z;
+        return m;
+    };
 
-//位移
-Matrix translation(Vec3f v){
-    Matrix m = Matrix::identity(4);
-    m[0][3] = v.x;
-    m[1][3] = v.y;
-    m[2][3] = v.z;
-    return m;
-};
+    //缩放
+    static Matrix zoom(float factor){
+        Matrix m = Matrix::identity(4);
+        m[0][0] = m[1][1] = m[2][2] = factor;
+        return m;
+    };
 
-//缩放
-Matrix zoom(float factor){
-    Matrix m = Matrix::identity(4);
-    m[0][0] = m[1][1] = m[2][2] = factor;
-    return m;
-};
+    static Matrix rotation_x(float cosangle, float sinangle){
+        Matrix m = Matrix::identity(4);
+        m[1][1] = m[2][2] = cosangle;
+        m[1][2] = -sinangle;
+        m[2][1] = sinangle;
+        return m;
+    };
 
-Matrix rotation_x(float cosangle, float sinangle){
-    Matrix m = Matrix::identity(4);
-    m[1][1] = m[2][2] = cosangle;
-    m[1][2] = -sinangle;
-    m[2][1] = sinangle;
-    return m;
-};
+    static Matrix rotation_y(float cosangle, float sinangle){
+        Matrix m = Matrix::identity(4);
+        m[0][0] = m[2][2] = cosangle;
+        m[0][2] = sinangle;
+        m[2][0] = -sinangle;
+        return m;
+    };
 
-Matrix rotation_y(float cosangle, float sinangle){
-    Matrix m = Matrix::identity(4);
-    m[0][0] = m[2][2] = cosangle;
-    m[0][2] = sinangle;
-    m[2][0] = -sinangle;
-    return m;
-};
-
-Matrix rotation_z(float cosangle, float sinangle){
-    Matrix m = Matrix::identity(4);
-    m[0][0] = m[1][1] = cosangle;
-    m[0][1] = -sinangle;
-    m[1][0] = sinangle;
-    return m;
+    static Matrix rotation_z(float cosangle, float sinangle){
+        Matrix m = Matrix::identity(4);
+        m[0][0] = m[1][1] = cosangle;
+        m[0][1] = -sinangle;
+        m[1][0] = sinangle;
+        return m;
+    };
 };
 
 #endif
